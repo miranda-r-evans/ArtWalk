@@ -1,0 +1,17 @@
+*
+
+!*.*
+
+!*/
+
+*~
+**/*~
+**/\#*
+
+**/__pycache__/*
+
+GoogleAPIKey.py
+**/GoogleAPIKey.py
+
+.DS_Store
+**/.DS_Store
