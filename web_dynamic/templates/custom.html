@@ -7,7 +7,7 @@
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/map.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/form.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='scripts/map.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/custom.js') }}"></script>
   </head>
   <body>
   	{% block body %}
@@ -46,10 +46,10 @@
 	{% endif %}
 	{% endblock %}
   	<div id="map"></div>
-  		Starting Point:<br>
+  		Starting point:<br>
   		<input id="origin" type="text" name="origin"><br>
-  		Radius (optional):<br>
-  		<input id="radius" type="number" name="radius" min="1" max="5"><br>
+  		Waypoints (separate by comma):<br>
+  		<input id="waypoints" type="text" name="waypoints"><br>
   		<input id="submit_route" type="submit" name="submit_route"><br>
   	{% if session['logged_in'] %}
   		<div id="save">

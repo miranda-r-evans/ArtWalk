@@ -5,9 +5,7 @@
     	<meta charset="utf-8">
     	<title>Art Walk main page</title>
     	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/map.css') }}">
-    	{% if session['logged_in'] %}
     	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/recommended.css') }}">
-    	{% endif %}
     	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     	<script src="{{ url_for('static', filename='scripts/saved.js') }}"></script>
 	</head>

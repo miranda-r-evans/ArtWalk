@@ -48,7 +48,7 @@ class WalkingRoute(Document):
     @staticmethod
     def getLocation(name):
         '''
-            get latitude and longitude of a place from a string
+            get data of a place from a string
         '''
         try:
             ## taking out ['geometry']['location']
@@ -89,3 +89,12 @@ class WalkingRoute(Document):
                 waypoints.append(randPoint['place_id'])
 
         return {'origin': originLocation['place_id'], 'waypoints': waypoints}
+
+    @staticmethod
+    def customRoute(origin, waypoints):
+        '''
+            create custom route
+        '''
+        originLocation = WalkingRoute.getLocation(origin)
+        waypointsLocations = [requests.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyAhHMgVekplsXZxpqkkwpctPH3fFBe1Ilc&location=' + str(originLocation['geometry']['location']['lat']) + ',' + str(originLocation['geometry']['location']['lng']) + '&radius=' + str(16090) + '&keyword=' + point.replace(' ', '%20')).json()['results'][0]['place_id'] for point in waypoints.split(',')]
+        return {'origin': originLocation['place_id'], 'waypoints': waypointsLocations}

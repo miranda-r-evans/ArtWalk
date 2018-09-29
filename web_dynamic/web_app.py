@@ -103,6 +103,11 @@ def saveRecommend():
     return recommended()
 
 
+@application.route('/custom')
+def custom():
+    return render_template('custom.html', APIKey=APIKey)
+
+
 if __name__ == "__main__":
     application.secret_key = urandom(12)
     application.run(host=host, port=port)
