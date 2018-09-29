@@ -3,7 +3,6 @@ from mongoengine import *
 from models import WalkingRoute
 from json import dumps
 from flask_login import UserMixin
-#from web_dynamic.web_app import login
 
 connect('artwalk')
 

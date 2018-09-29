@@ -6,3 +6,4 @@ from api.v1.views.generateRoute import *
 from api.v1.views.users import *
 from api.v1.views.walkingroutes import *
 from api.v1.views.sampleroute import *
+from api.v1.views.usersroutes import *

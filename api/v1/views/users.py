@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from api.v1.views import app_views
 from flask import jsonify, request, abort
-from models.user import User
+from models import User
 from mongoengine.errors import OperationError, ValidationError, InvalidQueryError, LookUpError
 
 
@@ -16,8 +16,13 @@ def show_all_or_create_user():
 
     # if method == post
     req = request.get_json()
-    new = User(**req)
-    new.save()
+    
+    try:
+        new = User(**req)
+        new.save()
+    except (OperationError, ValidationError, InvalidQueryError, LookUpError):
+        abort(400, 'Bad Data')
+
     return new.__str__()
 
 
@@ -30,8 +35,8 @@ def user_by_id(user_id=None):
         abort(404, 'Not Found')
 
     try:
-        user = User.objects(id=user_id)[0]
-    except IndexError:
+        user = User.objects.get(id=user_id)
+    except (OperationError, ValidationError, InvalidQueryError, LookUpError):
         abort(404, 'Not Found')
 
     if request.method == 'GET':
@@ -47,7 +52,7 @@ def user_by_id(user_id=None):
         abort(400, 'Not a JSON')
     try:
         user.update(**req)
-        user = User.objects(id=user_id)[0]
+        user = User.objects.get(id=user_id)
         return user.__str__()
     except (OperationError, ValidationError, InvalidQueryError, LookUpError):
         abort(400, 'Bad Data')

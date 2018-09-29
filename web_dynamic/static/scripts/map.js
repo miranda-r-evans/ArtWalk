@@ -7,12 +7,14 @@ function initMap() {
   });
   directionsDisplay.setMap(map);
 
-  document.getElementById('submit').addEventListener('click', function() {
+  document.getElementById('submit_route').addEventListener('click', function() {
   generateRoute(directionsService, directionsDisplay);
   });
 }
 
-let currentRoute = {"hello": "world"};
+if (typeof currentRoute === 'undefined'){
+  var currentRoute = {"hello": "world"};  
+}
 
 let gatherInput = function () {
   let params = {};

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from api.v1.views import app_views
 from flask import jsonify, request, abort
-from models.walkingroute import WalkingRoute
+from models import WalkingRoute
 from mongoengine.errors import OperationError, ValidationError, InvalidQueryError, LookUpError
 
 
@@ -16,8 +16,13 @@ def show_all_or_create_route():
 
     # if method == post
     req = request.get_json()
-    new = WalkingRoute(**req)
-    new.save()
+
+    try:
+        new = WalkingRoute(**req)
+        new.save()
+    except (OperationError, ValidationError, InvalidQueryError, LookUpError):
+        abort(400, 'Bad Data')
+
     return new.__str__()
 
 
@@ -30,8 +35,8 @@ def route_by_id(route_id=None):
         abort(404, 'Not Found')
 
     try:
-        route = WalkingRoute.objects(id=route_id)[0]
-    except IndexError:
+        route = WalkingRoute.objects.get(id=route_id)
+    except (OperationError, ValidationError, InvalidQueryError, LookUpError):
         abort(404, 'Not Found')
 
     if request.method == 'GET':
@@ -47,7 +52,7 @@ def route_by_id(route_id=None):
         abort(400, 'Not a JSON')
     try:
         route.update(**req)
-        route = WalkingRoute.objects(id=route_id)[0]
+        route = WalkingRoute.objects.get(id=route_id)
         return route.__str__()
     except (OperationError, ValidationError, InvalidQueryError, LookUpError):
         abort(400, 'Bad Data')
