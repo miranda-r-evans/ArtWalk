@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    	<meta charset="utf-8">
+    	<title>Art Walk main page</title>
+    	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/map.css') }}">
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    	<script src="{{ url_for('static', filename='scripts/saved.js') }}"></script>
+	</head>
+	<body>
+		<div id="map"></div>
+		<div class="savedroutes">
+			{% for route in walkroutes %}
+			<div class="route" id="{{ route.name }}">
+				Name: {{ route.name }}
+				<br>
+				<button class="seeroute" id="{{ route.id }}">see route</button>
+				<br>
+				<br>
+			</div>
+			{% endfor %}
+		</div>
+	</body>
+	<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ APIKey }}&callback=initMap">
+  	</script>
+</html>
