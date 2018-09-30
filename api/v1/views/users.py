@@ -7,6 +7,7 @@ from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import User
 from mongoengine.errors import OperationError, ValidationError, InvalidQueryError, LookUpError, FieldDoesNotExist
+from passlib.hash import sha256_crypt
 
 
 @app_views.route('/users', methods=['GET', 'POST'])
@@ -22,9 +23,10 @@ def show_all_or_create_user():
     req = request.get_json()
 
     try:
+        req['password'] = sha256_crypt.encrypt(req['password'])
         new = User(**req)
         new.save()
-    except (OperationError, ValidationError, InvalidQueryError, LookUpError, FieldDoesNotExist):
+    except (KeyError, OperationError, ValidationError, InvalidQueryError, LookUpError, FieldDoesNotExist):
         abort(400, 'Bad Data')
 
     return new.__str__()
@@ -55,6 +57,8 @@ def user_by_id(user_id=None):
     if req is None:
         abort(400, 'Not a JSON')
     try:
+        if 'password' in req.keys():
+            req['password'] = sha256_crypt.encrypt(req['password'])
         user.update(**req)
         user = User.objects.get(id=user_id)
         return user.__str__()

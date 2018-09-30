@@ -3,6 +3,7 @@ from mongoengine import *
 from models import WalkingRoute
 from json import dumps
 from flask_login import UserMixin
+from passlib.hash import sha256_crypt
 
 connect('artwalk')
 
@@ -32,4 +33,10 @@ class User(UserMixin, Document):
         '''
         return dumps(self.to_dict())
 
-    # TODO: add password hashing
+    def verify_password(self, pass_input):
+        '''
+            verifies password
+        '''
+        return sha256_crypt.verify(pass_input, self.password)
+
+    # initial password hashing takes place in api

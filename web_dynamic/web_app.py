@@ -53,7 +53,7 @@ def login():
     except StopIteration:
         abort(400)
 
-    if req['password'] == user.password:
+    if user.verify_password(req['password']) is True:
         session['logged_in'] = True
         session['userId'] = str(user.id)
     else:
