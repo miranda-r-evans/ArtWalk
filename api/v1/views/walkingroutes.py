@@ -6,7 +6,7 @@
 from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import WalkingRoute
-from mongoengine.errors import OperationError, ValidationError, InvalidQueryError, LookUpError
+from mongoengine.errors import OperationError, ValidationError, InvalidQueryError, LookUpError, FieldDoesNotExist
 
 
 @app_views.route('/walkingroutes', methods=['GET', 'POST'])
@@ -24,7 +24,7 @@ def show_all_or_create_route():
     try:
         new = WalkingRoute(**req)
         new.save()
-    except (OperationError, ValidationError, InvalidQueryError, LookUpError):
+    except (OperationError, ValidationError, InvalidQueryError, LookUpError, FieldDoesNotExist):
         abort(400, 'Bad Data')
 
     return new.__str__()
@@ -58,5 +58,5 @@ def route_by_id(route_id=None):
         route.update(**req)
         route = WalkingRoute.objects.get(id=route_id)
         return route.__str__()
-    except (OperationError, ValidationError, InvalidQueryError, LookUpError):
+    except (OperationError, ValidationError, InvalidQueryError, LookUpError, FieldDoesNotExist):
         abort(400, 'Bad Data')

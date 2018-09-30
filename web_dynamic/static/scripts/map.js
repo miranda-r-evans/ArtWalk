@@ -22,9 +22,10 @@ function gatherInput () {
 }
 
 function generateRoute (directionsService, directionsDisplay) {
+  $('#loader').css('display', 'block')
   $.ajax({
     url: 'http://127.0.0.1:5000/api/v1/sampleroute',
-    // url: 'http://127.0.0.1:5000/api/v1/generateRoute',
+    //url: 'http://127.0.0.1:5000/api/v1/generateRoute',
     type: 'POST',
     contentType: 'application/json',
     data: JSON.stringify(gatherInput()),

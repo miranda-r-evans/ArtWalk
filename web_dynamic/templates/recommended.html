@@ -1,61 +1,62 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    	<meta charset="utf-8">
-    	<title>Art Walk main page</title>
-    	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/map.css') }}">
-    	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/recommended.css') }}">
-    	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}">
-    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    	<script src="{{ url_for('static', filename='scripts/calcAndDisplay.js') }}"></script>
-    	<script src="{{ url_for('static', filename='scripts/saved.js') }}"></script>
-	</head>
-	<body>
+<head>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8">
+	<title>Art Walk main page</title>
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/map.css') }}">
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/form.css') }}">
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="{{ url_for('static', filename='scripts/calcAndDisplay.js') }}"></script>
+	<script src="{{ url_for('static', filename='scripts/saved.js') }}"></script>
+</head>
+<body>
 
-  	{% block body %}
-  	<ul class="nav">
-	{% if session['logged_in'] %}
-	 	<li><a href="/logout/">log out</a></li>
-	 	<li><a href="/myroutes/">my routes</a></li>
-	{% else %}
+	{% block body %}
+	<ul class="nav">
+		{% if session['logged_in'] %}
+		<li><a href="/logout/">log out</a></li>
+		<li><a href="/myroutes/">my routes</a></li>
+		{% else %}
 		<li><a href="/loginpage/">log in</a></li>
-	{% endif %}
+		{% endif %}
 		<li><a href="/">home</a></li>
 		<li><a href="/recommended/">recommended</a></li>
 		<li><a href="/custom/">custom</a></li>
-	{% endblock %}
+		{% endblock %}
 	</ul>
-		
-		<div id="map"></div>
-		<div class="savedroutes">
-			{% for route in walkroutes|sort(attribute='likes', reverse=True) %}
-			<div class="route" id="{{ route.name }}">
-				Name: {{ route.name }}
-				<br>
-				Likes: {{ route.likes}}
-				<br>
-				<button class="seeroute" id="{{ route.id }}">
-				see</button>
-				{% if session['logged_in'] %}
-				<form action="/saveRecommend" method="POST"><input type="text" name="id" value="{{ route.id }}" class="save_field"><button type="submit">save</button></form>
-				{% endif %}
-				<br>
-				<br>
-			</div>
-			{% endfor %}
-		</div>
 
-  	<div class="open">
-  		<br>
-  		<a id="googlemaps1"><button>Open Leg 1</button></a>
-  		<br>
-  		<a id="googlemaps2"><button>Open Leg 2</button></a>
-  		<br>
-  		<a id="googlemaps3"><button>Open Leg 3</button></a>
-  	</div>
-	</body>
-	<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key={{ APIKey }}&callback=initMap">
-  	</script>
+	<div id="map"></div>
+	<div id="loader"></div>
+
+	<div class="savedroutes">
+		{% for route in walkroutes|sort(attribute='likes', reverse=True) %}
+		<div class="route" id="{{ route.name }}">
+			<h3>{{ route.name }}</h3>
+			<h3>{{ route.likes }} likes</h3>
+			<button class="seeroute" id="{{ route.id }}">
+			see</button>
+			{% if session['logged_in'] %}
+			<form action="/saveRecommend" method="POST">
+				<input type="hidden" name="id" value="{{ route.id }}" class="save_field">
+				<button type="submit">save</button>
+			</form>
+			{% endif %}
+			<br>
+			<br>
+		</div>
+		{% endfor %}
+	</div>
+
+	<div class="open">
+		<h3>Open A Route</h3>
+		<a id="googlemaps1" target="_blank"><button>open leg 1</button></a>
+		<a id="googlemaps2" target="_blank"><button>open leg 2</button></a>
+		<a id="googlemaps3" target="_blank"><button>open leg 3</button></a>
+	</div>
+</body>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key={{ APIKey }}&callback=initMap">
+</script>
 </html>

@@ -39,7 +39,7 @@ def loginpage():
     return render_template('login.html', APIKey=APIKey)
 
 
-@application.route('/login', methods=['GET', 'POST'])
+@application.route('/login', methods=['POST'])
 def login():
     '''
         login route that login information is sent to and session is started
@@ -82,7 +82,10 @@ def save():
     except KeyError:
         abort(404)
 
-    req['keywords'] = req['keywords'].split(',')
+    try:
+        req['keywords'] = req['keywords'].split(',')
+    except KeyError:
+        req['keywords'] = []
     req['waypoints'] = req['waypoints'].split(',')
     req['likes'] = 0
 

@@ -1,57 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Art Walk main page</title>
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/map.css') }}">
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/form.css') }}">
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='scripts/calcAndDisplay.js') }}"></script>
-    <script src="{{ url_for('static', filename='scripts/custom.js') }}"></script>
-  </head>
-  <body>
-  	
-  	{% block body %}
-  	<ul class="nav">
-	{% if session['logged_in'] %}
-	 	<li><a href="/logout/">log out</a></li>
-	 	<li><a href="/myroutes/">my routes</a></li>
-	{% else %}
+<head>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8">
+	<title>Art Walk main page</title>
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/map.css') }}">
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/form.css') }}">
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="{{ url_for('static', filename='scripts/calcAndDisplay.js') }}"></script>
+	<script src="{{ url_for('static', filename='scripts/custom.js') }}"></script>
+</head>
+<body>
+
+	{% block body %}
+	<ul class="nav">
+		{% if session['logged_in'] %}
+		<li><a href="/logout/">log out</a></li>
+		<li><a href="/myroutes/">my routes</a></li>
+		{% else %}
 		<li><a href="/loginpage/">log in</a></li>
-	{% endif %}
+		{% endif %}
 		<li><a href="/">home</a></li>
 		<li><a href="/recommended/">recommended</a></li>
 		<li><a href="/custom/">custom</a></li>
-	{% endblock %}
+		{% endblock %}
 	</ul>
 
-  	<div id="map"></div>
-  		Starting point:<br>
-  		<input id="origin" type="text" name="origin"><br>
-  		Waypoints (separate by comma):<br>
-  		<input id="waypoints" type="text" name="waypoints"><br>
-  		<input id="submit_route" type="submit" name="submit_route"><br>
-  	{% if session['logged_in'] %}
-  		<div id="save">
-  			<br>
-	  		<script src="{{ url_for('static', filename='scripts/likesave.js') }}"></script>
-  			<button id='save_button'>save</button>
-  			<div id='save_form'></div>
-  		</div>
-  	{% endif %}
+	<div id="loader"></div>
+	<div id="map"></div>
 
-  	<div class="open">
-  		<br>
-  		<a id="googlemaps1"><button>Open Leg 1</button></a>
-  		<br>
-  		<a id="googlemaps2"><button>Open Leg 2</button></a>
-  		<br>
-  		<a id="googlemaps3"><button>Open Leg 3</button></a>
-  	</div>
-  </body>
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key={{ APIKey }}&callback=initMap">
-  </script>
+	<div class="panel">
+		<h3>Create A Route</h3>
+		<label for="origin">starting point</label>
+		<input id="origin" type="text" name="origin">
+		<label for="waypoints">waypoints (separate by comma)</label>
+		<input id="waypoints" type="text" name="waypoints">
+		<button id="submit_route" type="submit" name="submit_route">create</button>
+	</div>
+
+	{% if session['logged_in'] %}
+	<div class="likesave">
+		<h3>Save A Route</h3>
+		<form action="/save", method="POST">
+			<label for="route_name">name</label>
+			<input type="text" name="name" id="route_name">
+			<label for="route_keywords">keywords (separate by comma)</label>
+			<input type="text" name="keywords" id="route_keywords" placeholder="Crab Sculpture,50 United Nations Plaza,30 minutes">
+			<input type="hidden" name="origin" id="route_origin">
+			<input type="hidden" name="waypoints" id="route_waypoints">
+			<button type="submit">save</button>
+		</form>
+	</div>
+	{% endif %}
+
+	<div class="open">
+		<h3>Open A Route</h3>
+		<a id="googlemaps1" target="_blank"><button>open leg 1</button></a>
+		<a id="googlemaps2" target="_blank"><button>open leg 2</button></a>
+		<a id="googlemaps3" target="_blank"><button>open leg 3</button></a>
+	</div>
+</body>
+
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key={{ APIKey }}&callback=initMap">
+</script>
 </html>

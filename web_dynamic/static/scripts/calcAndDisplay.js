@@ -25,32 +25,36 @@ function calculateAndDisplayRoute (directionsService, directionsDisplay, data) {
       for (let i = 1; i < response['geocoded_waypoints'].length - 1; i++) {
         currentRoute.waypoints.push(response['geocoded_waypoints'][i]['place_id']);
       }
-
       let totalRoute = currentRoute.waypoints.slice();
       totalRoute.push(currentRoute.origin);
       totalRoute.unshift(currentRoute.origin);
       let leg1 = totalRoute.slice(0, 9);
-      let leg2 = totalRoute.slice(9, 18);
-      let leg3 = totalRoute.slice(18, 24);
+      let leg2 = totalRoute.slice(8, 17);
+      let leg3 = totalRoute.slice(16, 24);
 
       let link = 'https://www.google.com/maps/dir/?api=1&origin=a&destination=a&travelmode=walking&waypoints=' + 'a%7C'.repeat(leg1.length - 3) + 'a&origin_place_id=' + leg1.shift() + '&destination_place_id=' + leg1.pop() + '&waypoint_place_ids=' + leg1.join('%7C');
       $('#googlemaps1').attr('href', link);
 
-      if (leg2.length !== 0) {
+      if (leg2.length > 1) {
         link = 'https://www.google.com/maps/dir/?api=1&origin=a&destination=a&travelmode=walking&waypoints=' + 'a%7C'.repeat(leg2.length - 3) + 'a&origin_place_id=' + leg2.shift() + '&destination_place_id=' + leg2.pop() + '&waypoint_place_ids=' + leg2.join('%7C');
         $('#googlemaps2').attr('href', link);
       } else {
-        $('#googlemaps2').attr('href', '');
+        $('#googlemaps2').css('display', 'none');
       }
 
-      if (leg3.length !== 0) {
+      if (leg3.length > 1) {
         link = 'https://www.google.com/maps/dir/?api=1&origin=a&destination=a&travelmode=walking&waypoints=' + 'a%7C'.repeat(leg3.length - 3) + 'a&origin_place_id=' + leg3.shift() + '&destination_place_id=' + leg3.pop() + '&waypoint_place_ids=' + leg3.join('%7C');
         $('#googlemaps3').attr('href', link);
       } else {
-        $('#googlemaps3').attr('href', '');
+        $('#googlemaps3').css('display', 'none');
       }
 
       directionsDisplay.setDirections(response);
+      $('#loader').css('display', 'none');
+      $('.likesave').css('display', 'block');
+      $('.open').css('display', 'block');
+      $('#route_origin').val(currentRoute.origin);
+      $('#route_waypoints').val(currentRoute.waypoints);
     } else {
       window.alert('Directions request failed due to ' + status);
     }

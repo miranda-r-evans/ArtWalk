@@ -1,7 +1,46 @@
-#route_origin {
-	display: none;
+label {
+	color: white;
+	display: block;
+	margin: 0 0 5px 10px;
 }
 
-#route_waypoints {
+input {
+	display: block;
+	margin: 0 0 10px 10px;
+}
+
+h3 {
+	color: white;
+	margin: 20px 0 20px 10px;
+}
+
+button {
+	margin: 10px;
+	font-size: 20px;
+	color: white;
+	background-color: rgba(255,255,255, 0.3);
+	border-radius: 10px;
+}
+
+.panel, .route {
+	margin: 10px 5px;
+	background-color: #3399FF;
+	border-radius: 10px;
+	max-width: 29%;
+}
+
+.likesave {
 	display: none;
+	margin: 10px 5px;
+	background-color: #FF3333;
+	border-radius: 10px;
+	max-width: 29%;
+}
+
+.open {
+	display: none;
+	margin: 10px 5px;
+	background-color: #79FF6B;
+	border-radius: 10px;
+	max-width: 29%;
 }

@@ -2,8 +2,8 @@ function initMap () {
   var directionsService = new google.maps.DirectionsService();
   var directionsDisplay = new google.maps.DirectionsRenderer();
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 6,
-    center: {lat: 39.8283, lng: 98.5795}
+    zoom: 4,
+    center: {lat: 39.8283, lng: -98.5795}
   });
   directionsDisplay.setMap(map);
 
@@ -20,6 +20,7 @@ let gatherInput = function () {
 };
 
 let customRoute = function (directionsService, directionsDisplay) {
+  $('#loader').css('display', 'block')
   $.ajax({
     url: 'http://127.0.0.1:5000/api/v1/customRoute',
     type: 'POST',

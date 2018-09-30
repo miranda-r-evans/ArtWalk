@@ -6,7 +6,7 @@
 from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import User
-from mongoengine.errors import OperationError, ValidationError, InvalidQueryError, LookUpError
+from mongoengine.errors import OperationError, ValidationError, InvalidQueryError, LookUpError, FieldDoesNotExist
 
 
 @app_views.route('/users', methods=['GET', 'POST'])
@@ -24,7 +24,7 @@ def show_all_or_create_user():
     try:
         new = User(**req)
         new.save()
-    except (OperationError, ValidationError, InvalidQueryError, LookUpError):
+    except (OperationError, ValidationError, InvalidQueryError, LookUpError, FieldDoesNotExist):
         abort(400, 'Bad Data')
 
     return new.__str__()
@@ -58,5 +58,5 @@ def user_by_id(user_id=None):
         user.update(**req)
         user = User.objects.get(id=user_id)
         return user.__str__()
-    except (OperationError, ValidationError, InvalidQueryError, LookUpError):
+    except (OperationError, ValidationError, InvalidQueryError, LookUpError, FieldDoesNotExist):
         abort(400, 'Bad Data')
