@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+'''
+    routes for interaction between a user and a walking route
+'''
+
 from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import User, WalkingRoute
@@ -8,7 +12,8 @@ from mongoengine.errors import OperationError, ValidationError, InvalidQueryErro
 @app_views.route('/usersroutes/liked/<user_id>', methods=['GET', 'PUT'])
 def liked(user_id=None):
     '''
-
+        get: list of a user's liked walking routes
+        put: user liking a route
     '''
     if user_id is None:
         abort(404, 'Not Found')
@@ -50,7 +55,8 @@ def liked(user_id=None):
 @app_views.route('/usersroutes/saved/<user_id>', methods=['GET', 'PUT'])
 def saved(user_id=None):
     '''
-
+        get: list of a user's saved routes
+        put: user liking a route
     '''
     if user_id is None:
         abort(404, 'Not Found')
@@ -85,5 +91,3 @@ def saved(user_id=None):
     user['saved'].append(req['route_id'])
     user.save()
     return 'route saved'
-
-

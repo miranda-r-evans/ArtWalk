@@ -10,14 +10,13 @@ connect('artwalk')
 
 class WalkingRoute(Document):
     '''
-        route class
+        walking route class
     '''
     name = StringField()
     origin = StringField(required=True)
     waypoints = ListField(StringField(), required=True)
     keywords = ListField(StringField())
     likes = IntField(required=True)
-
 
     def to_dict(self):
         '''
@@ -26,24 +25,11 @@ class WalkingRoute(Document):
         '''
         return {'id': str(self.id), 'name': self.name, 'origin': self.origin, 'waypoints': self.waypoints, 'keywords': self.keywords, 'likes': self.likes}
 
-
     def __str__(self):
         '''
             string version of object
         '''
         return dumps(self.to_dict())
-
-
-    @staticmethod
-    def find(id):
-        '''
-            finds a walkingroute instance
-        '''
-        try:
-            return WalkingRoute.objects.get(id=id)
-        except IndexError:
-            return None
-
 
     @staticmethod
     def getLocation(name):
@@ -55,7 +41,6 @@ class WalkingRoute(Document):
             return requests.get('https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=' + APIKey + '&input=' + name.replace(' ', '%20') + '&inputtype=textquery&fields=place_id,geometry').json()['candidates'][0]
         except (IndexError, KeyError):
             return None
-
 
     @staticmethod
     def generateRoute(origin, radius=1, wantedPoints=[], unwantedPoints=[]):

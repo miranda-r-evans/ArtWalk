@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+'''
+    api app
+'''
 
 from api.v1.views import app_views
 from flask import Flask

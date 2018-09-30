@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+'''
+    web app
+'''
 
 import requests
 from flask import Flask, render_template, url_for, redirect, flash, session, request, abort
@@ -28,6 +31,9 @@ def home():
 
 @application.route('/loginpage')
 def loginpage():
+    '''
+        page users use to log in
+    '''
     if session.get('logged_in') is True:
         return home()
     return render_template('login.html', APIKey=APIKey)
@@ -35,6 +41,9 @@ def loginpage():
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
+    '''
+        login route that login information is sent to and session is started
+    '''
     if request.method == 'GET':
         return home()
 
@@ -54,6 +63,9 @@ def login():
 
 @application.route("/logout")
 def logout():
+    '''
+        log out route
+    '''
     session['logged_in'] = False
     session.pop('userId')
     return home()
@@ -61,6 +73,9 @@ def logout():
 
 @application.route("/save", methods=['POST'])
 def save():
+    '''
+        saves a route (from home)
+    '''
     req = request.form.to_dict()
     try:
         userId = session['userId']
@@ -69,7 +84,7 @@ def save():
 
     req['keywords'] = req['keywords'].split(',')
     req['waypoints'] = req['waypoints'].split(',')
-    req['likes'] = 1
+    req['likes'] = 0
 
     walkroute = requests.post('http://127.0.0.1:5000/api/v1/walkingroutes', json=req, headers={'Content-Type': 'application/json'})
     requests.put('http://127.0.0.1:5000/api/v1/usersroutes/saved/' + userId, json={'route_id': walkroute.json()['id']}, headers={'Content-Type': 'application/json'})
@@ -80,6 +95,9 @@ def save():
 
 @application.route('/myroutes')
 def myroutes():
+    '''
+        displays a user's routes
+    '''
     try:
         userId = session['userId']
     except KeyError:
@@ -91,6 +109,9 @@ def myroutes():
 
 @application.route('/recommended')
 def recommended():
+    '''
+        displays popular routes
+    '''
     walkroutes = requests.get('http://127.0.0.1:5000/api/v1/walkingroutes').json()
 
     return render_template('recommended.html', APIKey=APIKey, walkroutes=walkroutes)
@@ -98,6 +119,9 @@ def recommended():
 
 @application.route('/saveRecommend', methods=['POST'])
 def saveRecommend():
+    '''
+        saves a route (from recommended)
+    '''
     req = request.form.to_dict()
     try:
         userId = session['userId']
@@ -112,6 +136,9 @@ def saveRecommend():
 
 @application.route('/custom')
 def custom():
+    '''
+        lets a user design a custom route
+    '''
     return render_template('custom.html', APIKey=APIKey)
 
 

@@ -1,5 +1,5 @@
-$(document).ready(function() {
-  $('#save_button').click(function() {
+$(document).ready(function () {
+  $('#save_button').click(function () {
     $('#save_form').empty();
     $('#save_form').append(
       $('<form>', {'action': '/save', 'method': 'POST'}).append(

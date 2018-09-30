@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+'''
+    user CRUD routes
+'''
+
 from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import User
@@ -16,7 +20,7 @@ def show_all_or_create_user():
 
     # if method == post
     req = request.get_json()
-    
+
     try:
         new = User(**req)
         new.save()

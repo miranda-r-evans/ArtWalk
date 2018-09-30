@@ -1,23 +1,23 @@
-function initMap() {
-  var directionsService = new google.maps.DirectionsService;
-  var directionsDisplay = new google.maps.DirectionsRenderer;
+function initMap () {
+  var directionsService = new google.maps.DirectionsService();
+  var directionsDisplay = new google.maps.DirectionsRenderer();
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 6,
     center: {lat: 39.8283, lng: 98.5795}
   });
   directionsDisplay.setMap(map);
 
-  document.getElementById('submit_route').addEventListener('click', function() {
-  customRoute(directionsService, directionsDisplay);
+  document.getElementById('submit_route').addEventListener('click', function () {
+    customRoute(directionsService, directionsDisplay);
   });
 }
 
 let gatherInput = function () {
   let params = {};
   params.origin = $('#origin').val();
-  params.waypoints = $('#waypoints').val()
+  params.waypoints = $('#waypoints').val();
   return params;
-}
+};
 
 let customRoute = function (directionsService, directionsDisplay) {
   $.ajax({
@@ -27,5 +27,5 @@ let customRoute = function (directionsService, directionsDisplay) {
     data: JSON.stringify(gatherInput()),
     dataType: 'json',
     headers: {'Content-Type': 'application/json'}
-  }).done(function (data) {calculateAndDisplayRoute(directionsService, directionsDisplay, data)})
-}
+  }).done(function (data) { calculateAndDisplayRoute(directionsService, directionsDisplay, data); });
+};

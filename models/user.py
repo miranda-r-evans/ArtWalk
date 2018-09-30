@@ -19,7 +19,6 @@ class User(UserMixin, Document):
     liked = ListField(StringField())
     saved = ListField(StringField())
 
-
     def to_dict(self):
         '''
             dict representation of user
@@ -27,23 +26,10 @@ class User(UserMixin, Document):
         '''
         return {'id': str(self.id), 'name': self.name, 'email': self.email, 'liked': self.liked, 'saved': self.saved}
 
-
     def __str__(self):
         '''
             string version of object
         '''
         return dumps(self.to_dict())
-
-
-    @staticmethod
-    def find(id):
-        '''
-            finds a user instance
-        '''
-        try:
-            return User.objects.get(id=id)
-        except IndexError:
-            return None
-
 
     # TODO: add password hashing

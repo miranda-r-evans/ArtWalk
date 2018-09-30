@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+'''
+    walking route CRUD routes
+'''
+
 from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models import WalkingRoute
@@ -8,7 +12,7 @@ from mongoengine.errors import OperationError, ValidationError, InvalidQueryErro
 @app_views.route('/walkingroutes', methods=['GET', 'POST'])
 def show_all_or_create_route():
     '''
-        shows all users or creates a new route
+        shows all users or creates a new walking route
     '''
     if request.method == 'GET':
         routes = [item.to_dict() for item in WalkingRoute.objects()]
@@ -29,7 +33,7 @@ def show_all_or_create_route():
 @app_views.route('/walkingroutes/<route_id>', methods=['GET', 'DELETE', 'PUT'])
 def route_by_id(route_id=None):
     '''
-        shows, deletes, or updates one route
+        shows, deletes, or updates one walking route
     '''
     if route_id is None:
         abort(404, 'Not Found')
