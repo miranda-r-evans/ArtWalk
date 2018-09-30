@@ -5,10 +5,27 @@
     	<meta charset="utf-8">
     	<title>Art Walk main page</title>
     	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/map.css') }}">
+    	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}">
     	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    	<script src="{{ url_for('static', filename='scripts/calcAndDisplay.js') }}"></script>
     	<script src="{{ url_for('static', filename='scripts/saved.js') }}"></script>
 	</head>
 	<body>
+
+  	{% block body %}
+  	<ul class="nav">
+	{% if session['logged_in'] %}
+	 	<li><a href="/logout/">log out</a></li>
+	 	<li><a href="/myroutes/">my routes</a></li>
+	{% else %}
+		<li><a href="/loginpage/">log in</a></li>
+	{% endif %}
+		<li><a href="/">home</a></li>
+		<li><a href="/recommended/">recommended</a></li>
+		<li><a href="/custom/">custom</a></li>
+	{% endblock %}
+	</ul>
+
 		<div id="map"></div>
 		<div class="savedroutes">
 			{% for route in walkroutes %}
@@ -22,6 +39,15 @@
 			{% endfor %}
 		</div>
 	</body>
+
+  	<div class="open">
+  		<br>
+  		<a id="googlemaps1"><button>Open Leg 1</button></a>
+  		<br>
+  		<a id="googlemaps2"><button>Open Leg 2</button></a>
+  		<br>
+  		<a id="googlemaps3"><button>Open Leg 3</button></a>
+  	</div>
 	<script async defer
     src="https://maps.googleapis.com/maps/api/js?key={{ APIKey }}&callback=initMap">
   	</script>

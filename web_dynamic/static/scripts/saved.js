@@ -12,39 +12,9 @@ function initMap() {
   });
 }
 
-if (typeof currentRoute === 'undefined'){
-  var currentRoute = {"hello": "world"};  
-}
-
 let showRoute = function (directionsService, directionsDisplay, id) {
   $.ajax({
     url: 'http://127.0.0.1:5000/api/v1/walkingroutes/' + id,
     type: 'GET',
-  }).done(function (data) {calculateAndDisplayRoute(directionsService, directionsDisplay, data)})
-}
-
-function calculateAndDisplayRoute(directionsService, directionsDisplay, data) {
-  data = JSON.parse(data)
-  currentRoute = data;
-  var waypts = []
-  for (var i = 0; i < data.waypoints.length; i++) {
-    waypts.push({
-      location: {placeId: data.waypoints[i]},
-      stopover: true
-    });
-  }
-  directionsService.route({
-    origin: {'placeId': data.origin},
-    destination: {'placeId': data.origin},
-    waypoints: waypts,
-    optimizeWaypoints: true,
-    travelMode: 'WALKING'
-  }, function(response, status) {
-      if (status === 'OK') {
-        directionsDisplay.setDirections(response);
-      } else {
-        window.alert('Directions request failed due to ' + status);
-      }
-    }
-  );
+  }).done(function (data) {calculateAndDisplayRoute(directionsService, directionsDisplay, JSON.parse(data))})
 }

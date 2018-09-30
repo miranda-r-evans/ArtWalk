@@ -6,45 +6,27 @@
     <title>Art Walk main page</title>
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/map.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/form.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='scripts/calcAndDisplay.js') }}"></script>
     <script src="{{ url_for('static', filename='scripts/map.js') }}"></script>
   </head>
   <body>
+
   	{% block body %}
+  	<ul class="nav">
 	{% if session['logged_in'] %}
-	<div class="login">
-		<div class="app-title">
-			<h2>Logout</h2>
-		</div>
-	 	<a href="/logout/"><button>Log out</button></a>
-	</div>
-	<br>
+	 	<li><a href="/logout/">log out</a></li>
+	 	<li><a href="/myroutes/">my routes</a></li>
 	{% else %}
-	<form action="/login" method="POST">
-		<div class="login">
-			<div class="app-title">
-				<h2>Login</h2>
-			</div>
- 
-			<div class="login-form">
-				<div class="control-group">
-				<input type="text" class="login-field" value="" placeholder="email" name="email">
-				<label class="login-field-icon fui-user" for="login-name"></label>
-				</div>
- 
-				<div class="control-group">
-				<input type="password" class="login-field" value="" placeholder="password" name="password">
-				<label class="login-field-icon fui-lock" for="login-pass"></label>
-				</div>
- 
-                <input type="submit" value="Log in" class="btn btn-primary btn-large btn-block">
-			    <br>
-			</div>
-		</div>
-	</form>
-	<br>
+		<li><a href="/loginpage/">log in</a></li>
 	{% endif %}
+		<li><a href="/">home</a></li>
+		<li><a href="/recommended/">recommended</a></li>
+		<li><a href="/custom/">custom</a></li>
 	{% endblock %}
+	</ul>
+
   	<div id="map"></div>
   		Starting Point:<br>
   		<input id="origin" type="text" name="origin"><br>
@@ -59,6 +41,14 @@
   			<div id='save_form'></div>
   		</div>
   	{% endif %}
+  	<div class="open">
+  		<br>
+  		<a id="googlemaps1"><button>Open Leg 1</button></a>
+  		<br>
+  		<a id="googlemaps2"><button>Open Leg 2</button></a>
+  		<br>
+  		<a id="googlemaps3"><button>Open Leg 3</button></a>
+  	</div>
   </body>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key={{ APIKey }}&callback=initMap">

@@ -8,12 +8,8 @@ function initMap() {
   directionsDisplay.setMap(map);
 
   document.getElementById('submit_route').addEventListener('click', function() {
-  generateRoute(directionsService, directionsDisplay);
+  customRoute(directionsService, directionsDisplay);
   });
-}
-
-if (typeof currentRoute === 'undefined'){
-  var currentRoute = {"hello": "world"};  
 }
 
 let gatherInput = function () {
@@ -23,7 +19,7 @@ let gatherInput = function () {
   return params;
 }
 
-let generateRoute = function (directionsService, directionsDisplay) {
+let customRoute = function (directionsService, directionsDisplay) {
   $.ajax({
     url: 'http://127.0.0.1:5000/api/v1/customRoute',
     type: 'POST',
@@ -32,29 +28,4 @@ let generateRoute = function (directionsService, directionsDisplay) {
     dataType: 'json',
     headers: {'Content-Type': 'application/json'}
   }).done(function (data) {calculateAndDisplayRoute(directionsService, directionsDisplay, data)})
-}
-
-function calculateAndDisplayRoute(directionsService, directionsDisplay, data) {
-  currentRoute = data;
-  var waypts = []
-  for (var i = 0; i < data.waypoints.length; i++) {
-    waypts.push({
-      location: {placeId: data.waypoints[i]},
-      stopover: true
-    });
-  }
-  directionsService.route({
-    origin: {'placeId': data.origin},
-    destination: {'placeId': data.origin},
-    waypoints: waypts,
-    optimizeWaypoints: true,
-    travelMode: 'WALKING'
-  }, function(response, status) {
-      if (status === 'OK') {
-        directionsDisplay.setDirections(response);
-      } else {
-        window.alert('Directions request failed due to ' + status);
-      }
-    }
-  );
 }

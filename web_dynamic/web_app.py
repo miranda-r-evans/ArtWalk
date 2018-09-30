@@ -26,6 +26,13 @@ def home():
     return render_template('index.html', APIKey=APIKey)
 
 
+@application.route('/loginpage')
+def loginpage():
+    if session.get('logged_in') is True:
+        return home()
+    return render_template('login.html', APIKey=APIKey)
+
+
 @application.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':

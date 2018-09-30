@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Art Walk login page</title>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}">
+  </head>
+  <body>
+
+  	{% block body %}
+  	<ul class="nav">
+	{% if session['logged_in'] %}
+	 	<li><a href="/logout/">log out</a></li>
+	 	<li><a href="/myroutes/">my routes</a></li>
+	{% else %}
+		<li><a href="/loginpage/">log in</a></li>
+	{% endif %}
+		<li><a href="/">home</a></li>
+		<li><a href="/recommended/">recommended</a></li>
+		<li><a href="/custom/">custom</a></li>
+	{% endblock %}
+	</ul>
+
+  	<form action="/login" method="POST">
+		<div class="login">
+ 
+			<div class="login-form">
+				<div class="control-group">
+				<input type="text" class="login-field" value="" placeholder="email" name="email">
+				<label class="login-field-icon fui-user" for="login-name"></label>
+				</div>
+ 
+				<div class="control-group">
+				<input type="password" class="login-field" value="" placeholder="password" name="password">
+				<label class="login-field-icon fui-lock" for="login-pass"></label>
+				</div>
+ 
+                <input type="submit" value="Log in" class="btn btn-primary btn-large btn-block">
+			    <br>
+			</div>
+		</div>
+	</form>
+  </body>
+ </html>

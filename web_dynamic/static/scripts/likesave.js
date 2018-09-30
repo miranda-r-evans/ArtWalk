@@ -9,7 +9,7 @@ $(document).ready(function() {
         $('<br>'),
         $('<label>', {'for': 'route_keywords'}).text('keywords (separate by comma)'),
         $('<br>'),
-        $('<input>', {'type': 'text', 'name': 'keywords', 'placeholder': 'Crab Sculpture,Origami Fountain,50 United Nations Plaza', 'id': 'route_keywords'}),
+        $('<input>', {'type': 'text', 'name': 'keywords', 'placeholder': 'Crab Sculpture,50 United Nations Plaza,30 minutes', 'id': 'route_keywords'}),
         $('<br>'),
         $('<input>', {'type': 'text', 'name': 'origin', 'value': currentRoute.origin, 'id': 'route_origin'}),
         $('<input>', {'type': 'text', 'name': 'waypoints', 'value': currentRoute.waypoints, 'id': 'route_waypoints'}),
