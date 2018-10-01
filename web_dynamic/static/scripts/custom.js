@@ -20,7 +20,7 @@ let gatherInput = function () {
 };
 
 let customRoute = function (directionsService, directionsDisplay) {
-  $('#loader').css('display', 'block')
+  $('#loader').css('display', 'block');
   $.ajax({
     url: 'http://127.0.0.1:5000/api/v1/customRoute',
     type: 'POST',

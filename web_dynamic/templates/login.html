@@ -12,6 +12,7 @@
 		}
 	</style>
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
   </head>
   <body>
 
@@ -29,6 +30,7 @@
 	{% endblock %}
 	</ul>
 
+	<div class="main">
   	<form action="/login" method="POST">
 		<div class="login">
  
@@ -48,5 +50,6 @@
 			</div>
 		</div>
 	</form>
+	</div>
   </body>
  </html>

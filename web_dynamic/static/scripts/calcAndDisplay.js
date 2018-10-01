@@ -1,6 +1,4 @@
-if (typeof currentRoute === 'undefined') {
-  var currentRoute = {'hello': 'world'};
-}
+var currentRoute = {'hello': 'world'};
 
 function calculateAndDisplayRoute (directionsService, directionsDisplay, data) {
   var waypts = [];
