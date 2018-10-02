@@ -61,7 +61,7 @@ def login():
     return home()
 
 
-@application.route("/logout")
+@application.route('/logout')
 def logout():
     '''
         log out route
@@ -71,12 +71,15 @@ def logout():
     return home()
 
 
-@application.route("/save", methods=['POST'])
-def save():
+@application.route('/newwalk', methods=['POST'])
+def newwalk():
     '''
-        saves a route (from home)
+        likes or saves a new route
     '''
     req = request.form.to_dict()
+    action = req['action']
+    req.pop('action')
+
     try:
         userId = session['userId']
     except KeyError:
@@ -87,14 +90,38 @@ def save():
     except KeyError:
         req['keywords'] = []
     req['waypoints'] = req['waypoints'].split(',')
+
     req['likes'] = 0
+    print(req)
+    if action == 'like':
+        walkroute = requests.post('http://127.0.0.1:5000/api/v1/walkingroutes', json=req, headers={'Content-Type': 'application/json'})
+        requests.put('http://127.0.0.1:5000/api/v1/usersroutes/liked/' + userId, json={'route_id': walkroute.json()['id']}, headers={'Content-Type': 'application/json'})
+    else:
+        walkroute = requests.post('http://127.0.0.1:5000/api/v1/walkingroutes', json=req, headers={'Content-Type': 'application/json'})
+        requests.put('http://127.0.0.1:5000/api/v1/usersroutes/saved/' + userId, json={'route_id': walkroute.json()['id']}, headers={'Content-Type': 'application/json'})
 
-    walkroute = requests.post('http://127.0.0.1:5000/api/v1/walkingroutes', json=req, headers={'Content-Type': 'application/json'})
-    requests.put('http://127.0.0.1:5000/api/v1/usersroutes/saved/' + userId, json={'route_id': walkroute.json()['id']}, headers={'Content-Type': 'application/json'})
-    requests.put('http://127.0.0.1:5000/api/v1/usersroutes/liked/' + userId, json={'route_id': walkroute.json()['id']}, headers={'Content-Type': 'application/json'})
+    return '', 204
 
-    return home()
+@application.route('/existingwalk', methods=['POST'])
+def existingwalk():
+    '''
+        likes or saves an existing route
+    '''
+    req = request.form.to_dict()
+    action = req['action']
+    req.pop('action')
 
+    try:
+        userId = session['userId']
+    except KeyError:
+        abort(404)
+
+    if action == 'like':
+        requests.put('http://127.0.0.1:5000/api/v1/usersroutes/liked/' + userId, json={'route_id': req['id']}, headers={'Content-Type': 'application/json'})
+    else:
+        requests.put('http://127.0.0.1:5000/api/v1/usersroutes/saved/' + userId, json={'route_id': req['id']}, headers={'Content-Type': 'application/json'})
+    
+    return '', 204
 
 @application.route('/myroutes')
 def myroutes():
@@ -118,24 +145,6 @@ def recommended():
     walkroutes = requests.get('http://127.0.0.1:5000/api/v1/walkingroutes').json()
 
     return render_template('recommended.html', APIKey=APIKey, walkroutes=walkroutes)
-
-
-@application.route('/saveRecommend', methods=['POST'])
-def saveRecommend():
-    '''
-        saves a route (from recommended)
-    '''
-    req = request.form.to_dict()
-    try:
-        userId = session['userId']
-    except KeyError:
-        abort(404)
-
-    requests.put('http://127.0.0.1:5000/api/v1/usersroutes/saved/' + userId, json={'route_id': req['id']}, headers={'Content-Type': 'application/json'})
-    requests.put('http://127.0.0.1:5000/api/v1/usersroutes/liked/' + userId, json={'route_id': req['id']}, headers={'Content-Type': 'application/json'})
-
-    return recommended()
-
 
 @application.route('/custom')
 def custom():

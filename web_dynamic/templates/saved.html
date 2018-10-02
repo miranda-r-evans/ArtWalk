@@ -8,7 +8,7 @@
 	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}">
 	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/form.css') }}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="{{ url_for('static', filename='scripts/calcAndDisplay.js') }}"></script>
+	<script src="{{ url_for('static', filename='scripts/map.js') }}"></script>
 	<script src="{{ url_for('static', filename='scripts/saved.js') }}"></script>
 </head>
 <body>
@@ -35,6 +35,10 @@
 		<div class="route" id="{{ route.name }}">
 			<h3>{{ route.name }}</h3>
 			<button class="seeroute" id="{{ route.id }}">see</button>
+			<form action="/existingwalk" method="POST">
+				<input type="hidden" name="id" value="{{ route.id }}">
+				<button type="submit" name="action" value="like">like</button>
+			</form>
 		</div>
 		{% endfor %}
 	</div>

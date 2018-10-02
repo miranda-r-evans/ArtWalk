@@ -1,17 +1,3 @@
-function initMap () {
-  var directionsService = new google.maps.DirectionsService();
-  var directionsDisplay = new google.maps.DirectionsRenderer();
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
-    center: {lat: 39.8283, lng: -98.5795}
-  });
-  directionsDisplay.setMap(map);
-
-  $('.seeroute').click(function () {
-    showRoute(directionsService, directionsDisplay, this.id);
-  });
-}
-
 let showRoute = function (directionsService, directionsDisplay, id) {
   $('#loader').css('display', 'block');
   $.ajax({

@@ -8,7 +8,7 @@
 	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/form.css') }}">
 	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="{{ url_for('static', filename='scripts/calcAndDisplay.js') }}"></script>
+	<script src="{{ url_for('static', filename='scripts/map.js') }}"></script>
 	<script src="{{ url_for('static', filename='scripts/custom.js') }}"></script>
 </head>
 <body>
@@ -42,14 +42,15 @@
 	{% if session['logged_in'] %}
 	<div class="likesave">
 		<h3>Save A Route</h3>
-		<form action="/save", method="POST">
+		<form action="/newwalk", method="POST">
 			<label for="route_name">name</label>
 			<input type="text" name="name" id="route_name">
 			<label for="route_keywords">keywords (separate by comma)</label>
 			<input type="text" name="keywords" id="route_keywords" placeholder="Crab Sculpture,50 United Nations Plaza,30 minutes">
 			<input type="hidden" name="origin" id="route_origin">
 			<input type="hidden" name="waypoints" id="route_waypoints">
-			<button type="submit">save</button>
+			<button type="submit" name="action" value="like">like</button>
+			<button type="submit" name="action" value="save">save</button>
 		</form>
 	</div>
 	{% endif %}

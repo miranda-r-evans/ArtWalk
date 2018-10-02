@@ -6,19 +6,22 @@ function loadRoutes (data) {
         $('<h3>').text(route['name']),
         $('<h4>').text(route['likes']),
         $('<button>', {'class': 'seeroute', 'id': route['id']}).text('see'),
-        $('<form>', {'action': '/saveRecommend', 'method': 'POST'}).append(
-          $('<input>', {'type': 'hidden', 'name': 'id', 'value': route['id'], 'class': 'save_field'}),
-          $('<button>', {'type': 'submit'}).text('save')
+        $('<form>', {'action': '/existingwalk', 'method': 'POST'}).append(
+          $('<input>', {'type': 'hidden', 'name': 'id', 'value': route['id']}),
+          $('<button>', {'type': 'submit', 'name': 'action', 'value': 'like'}).text('like'),
+          $('<button>', {'type': 'submit', 'name': 'action', 'value': 'save'}).text('save')
         )
       )
-    );
+    )
   }
   initMap();
 }
 
 $(document).ready(function () {
   $.ajax({
-    url: 'http://0.0.0.0:5000/api/v1/top10/'
+    // top 10 is for production
+    //url: 'http://0.0.0.0:5000/api/v1/top10/'
+    url: 'http://0.0.0.0:5000/api/v1/walkingroutes/'
   }).done(function (data) {
     loadRoutes(data);
   });
