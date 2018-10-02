@@ -1,5 +1,5 @@
 # ArtWalk : Holberton School End-Of-Year Project
-ArtWalk is a web application that allows users to generate, save, and recommend walking routes anywhere in the world. It uses Google Maps for querying place data, displaying maps, and giving access to walking directions.
+ArtWalk is a web application that allows users to generate, save, and recommend walking routes of murals, sculptures, and other landmarks anywhere in the world. It uses Google Maps for querying place data, displaying maps, and giving access to walking directions.
 
 ## Overview
 ArtWalk has five front-end routes, used for randomly generating a walking route, creating a customized walking route of specific places, seeing popular walking routes, seeing saved walking routes, and logging in.
