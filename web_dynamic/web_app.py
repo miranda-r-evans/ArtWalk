@@ -5,7 +5,6 @@
 
 import requests
 from flask import Flask, render_template, url_for, redirect, flash, session, request, abort
-from uuid import uuid4
 from os import getenv, urandom
 from flask_login import LoginManager, current_user, login_user
 from models import User
