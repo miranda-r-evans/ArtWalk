@@ -11,7 +11,6 @@ function gatherInput () {
 
 function generateRoute (directionsService, directionsDisplay) {
   $('#loader').css('display', 'block');
-  console.log(gatherInput());
   $.ajax({
     // sample route is for development purposes
     // url: 'http://127.0.0.1:5000/api/v1/sampleroute',
