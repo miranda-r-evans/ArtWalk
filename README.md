@@ -1,5 +1,5 @@
 # ArtWalk : Holberton School End-Of-Year Project
-ArtWalk is a web application that allows users to generate, save, and recommend walking routes of murals, sculptures, and other landmarks anywhere in the world. It uses Google Maps for querying place data, displaying maps, and giving access to walking directions.
+ArtWalk is a web application that allows users to generate, save, and recommend walking routes featuring murals, sculptures, and other landmarks anywhere in the world. It uses Google Maps for querying place data, displaying maps, and giving access to walking directions.
 
 ## Overview
 ArtWalk has five front-end routes, used for randomly generating a walking route, creating a customized walking route of specific places, seeing popular walking routes, seeing saved walking routes, and logging in.
@@ -48,7 +48,7 @@ Next, pip3 the relevant modules.
 ```
 $ pip3 install flask, flask-cors, flask-login, passlib, mongoengine
 ```
-Currently, there are no server configuration directions. The web app should be available publicly. The API  app is used be the web app on the server and should not be available publicly, except for the routes */generateRoute, /customRoute, /routeSearch,* and */top10*. */sampleroute* is used for development purposes.
+Currently, there are no server configuration directions. The web app should be available publicly. The API  app is used by the web app on the server and should not be available publicly, except for the routes */generateRoute, /customRoute, /routeSearch,* and */top10*. */sampleroute* is used for development purposes.
 
 Lastly, a Google Maps API key is needed. Obtain an API key, create a file called `GoogleAPIKey.py` in the top-level directory, and inside create a variable called `APIKey` equal to the obtained API key.
 

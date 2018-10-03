@@ -10,41 +10,38 @@ function initMap () {
   });
   directionsDisplay.setMap(map);
 
-  // these onclick maps are used because different url routes use different functions,
-  // and the proper function needs to be called in initMap
-  onclick_id_map = [
-    {'identifier': '#submit_route', 'function': 'generateRoute'},
-    {'identifier': '#submit_route', 'function': 'customRoute'}
-  ]
-
-  onclick_class_map = [
-    {'identifier': '.seeroute', 'function': 'showRoute'}
-  ]
-
-  // only the needed file will be served, so functions associated with other url routes will not be present
-
-  for (id_map of onclick_id_map) {
+  // each extra script will have its respective functions executed, while ones from other files are ignored
+  $('#random').click(function () {
     try {
-      eval(id_map.function);
-      $(id_map.identifier).click(function () {
-        eval(id_map.function)(directionsService, directionsDisplay);
-      });
-      break;
-    } catch(ReferenceError) {
-      ;
+      generateRoute(directionsService, directionsDisplay);
+    } catch (ReferenceError) {
+
     }
-  }
-  for (class_map of onclick_class_map) {
+  });
+
+  $('#optimal').click(function () {
     try {
-        eval(class_map.function);
-        $(class_map.identifier).click(function () {
-          eval(class_map.function)(directionsService, directionsDisplay, this.id);
-        });
-        break;
-    } catch(ReferenceError) {
-      ;
+      generateRouteOptimal(directionsService, directionsDisplay);
+    } catch (ReferenceError) {
+
     }
-  }
+  });
+
+  $('#submit_route').click(function () {
+    try {
+      customRoute(directionsService, directionsDisplay);
+    } catch (ReferenceError) {
+
+    }
+  });
+
+  $('.seeroute').click(function () {
+    try {
+      showRoute(directionsService, directionsDisplay, this.id);
+    } catch (ReferenceError) {
+
+    }
+  });
 }
 
 function calculateAndDisplayRoute (directionsService, directionsDisplay, data) {
@@ -82,8 +79,14 @@ function calculateAndDisplayRoute (directionsService, directionsDisplay, data) {
       let leg2 = totalRoute.slice(8, 17);
       let leg3 = totalRoute.slice(16, 24);
 
-      let link = 'https://www.google.com/maps/dir/?api=1&origin=a&destination=a&travelmode=walking&waypoints=' + 'a%7C'.repeat(leg1.length - 3) + 'a&origin_place_id=' + leg1.shift() + '&destination_place_id=' + leg1.pop() + '&waypoint_place_ids=' + leg1.join('%7C');
-      $('#googlemaps1').attr('href', link);
+      if (leg1.length > 0) {
+        let link = 'https://www.google.com/maps/dir/?api=1&origin=a&destination=a&travelmode=walking&waypoints=' + 'a%7C'.repeat(leg1.length - 3) + 'a&origin_place_id=' + leg1.shift() + '&destination_place_id=' + leg1.pop() + '&waypoint_place_ids=' + leg1.join('%7C');
+        $('#googlemaps1').attr('href', link);
+      } else {
+        $('#googlemaps1').css('display', 'none');
+        window.alert('There was a problem generating the route');
+        return;
+      }
 
       if (leg2.length > 1) {
         link = 'https://www.google.com/maps/dir/?api=1&origin=a&destination=a&travelmode=walking&waypoints=' + 'a%7C'.repeat(leg2.length - 3) + 'a&origin_place_id=' + leg2.shift() + '&destination_place_id=' + leg2.pop() + '&waypoint_place_ids=' + leg2.join('%7C');
@@ -111,4 +114,3 @@ function calculateAndDisplayRoute (directionsService, directionsDisplay, data) {
   }
   );
 }
-

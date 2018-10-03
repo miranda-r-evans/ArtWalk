@@ -12,7 +12,7 @@ function loadRoutes (data) {
           $('<button>', {'type': 'submit', 'name': 'action', 'value': 'save'}).text('save')
         )
       )
-    )
+    );
   }
   initMap();
 }
@@ -20,7 +20,7 @@ function loadRoutes (data) {
 $(document).ready(function () {
   $.ajax({
     // top 10 is for production
-    //url: 'http://0.0.0.0:5000/api/v1/top10/'
+    // url: 'http://0.0.0.0:5000/api/v1/top10/'
     url: 'http://0.0.0.0:5000/api/v1/walkingroutes/'
   }).done(function (data) {
     loadRoutes(data);

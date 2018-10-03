@@ -43,7 +43,20 @@ class WalkingRoute(Document):
             return None
 
     @staticmethod
-    def generateRoute(origin, radius=1, wantedPoints=[], unwantedPoints=[]):
+    def findClustering(points):
+        '''
+            finds optimal walk by identifying clusters
+        '''
+        for x in points:
+            x['clustering_score'] = 0
+            for y in points:
+                x['clustering_score'] += abs(x['geometry']['location']['lat'] - y['geometry']['location']['lat'])
+                x['clustering_score'] += abs(x['geometry']['location']['lng'] - y['geometry']['location']['lng'])
+        points.sort(key = lambda z:z['clustering_score'], reverse=True)
+        return points
+
+    @staticmethod
+    def generateRoute(origin, optimize=False, radius=1, wantedPoints=[], unwantedPoints=[]):
         '''
             generate a route around an origin point
         '''
@@ -66,10 +79,19 @@ class WalkingRoute(Document):
             location = WalkingRoute.getLocation(name)
             if location is not None:
                 waypoints.append(location['place_id'])
+
+        if optimize is True:
+            placeList = WalkingRoute.findClustering(placeList)
+
         for i in range(len(waypoints), 23):
             if len(placeList) == 0:
                 break
-            randPoint = placeList.pop(random.choice(range(len(placeList))))
+
+            if optimize is True:
+                randPoint = placeList.pop()
+            else:
+                randPoint = placeList.pop(random.choice(range(len(placeList))))
+
             if randPoint['name'] not in wantedPoints and randPoint['name'] not in ['unwantedPoints']:
                 waypoints.append(randPoint['place_id'])
 
