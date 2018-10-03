@@ -7,9 +7,11 @@
 	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/map.css') }}">
 	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/form.css') }}">
 	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}">
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles/advanced.css') }}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="{{ url_for('static', filename='scripts/map.js') }}"></script>
 	<script src="{{ url_for('static', filename='scripts/generate.js') }}"></script>
+	<script src="{{ url_for('static', filename='scripts/advanced.js') }}"></script>
 </head>
 <body>
 
@@ -36,6 +38,13 @@
 		<input id="origin" type="text" name="origin">
 		<label for="radius">radius (optional)</label>
 		<input id="radius" type="number" name="radius" min="1" max="5">
+		<button id="advancedbutton">advanced</button>
+		<div id="advanced">
+			<label for="wantedPoints">wanted points (separate by comma)</label>
+			<input type="text" id="wantedPoints" name="wantedPoints" value="" placeholder="Origami Fountain,Heise Metal Sculpture">
+			<label for="unwantedPoints">unwanted points (separate by comma)</label>
+			<input type="text" id="unwantedPoints" name="unwantedPoints" value="" placeholder="Origami Fountain,Heise Metal Sculpture">
+		</div>
 		<button id="random" type="submit" name="random">random</button>
 		<button id="optimal" type="submit" name="optimal">optimal</button>
 	</div>

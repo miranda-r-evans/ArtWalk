@@ -1,0 +1,15 @@
+#advancedbutton {
+	display: block !important;
+	background-color: rgba(119, 66, 244, 0.2) !important;
+	margin-bottom: 0;
+}
+
+#advanced {
+	background-color: rgba(119, 66, 244, 0.2);
+	max-width: 90%;
+	margin: 10px auto auto auto !important;
+	border-radius: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	display: none;
+}

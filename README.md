@@ -6,7 +6,7 @@ ArtWalk has five front-end routes, used for randomly generating a walking route,
 
 ### Home
 ![screenshot of home](/images/home.png)
-Generate A Route panel is used to randomly generate a route in a particular area. After a route is generated, the Open A Route panel pops up, which provides links to Google Maps. If the user is logged in, a panel to save or like the route pops up as well. The user can choose what name to give the route and what keywords to associate it with.
+Generate A Route panel is used to randomly generate a route in a particular area. The advanced button allows for wanted and unwanted points. After a route is generated, the Open A Route panel pops up, which provides links to Google Maps. If the user is logged in, a panel to save or like the route pops up as well. The user can choose what name to give the route and what keywords to associate it with.
 
 ### Custom
 ![screenshot of custom](/images/custom.png)

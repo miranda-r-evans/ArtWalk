@@ -56,10 +56,12 @@ class WalkingRoute(Document):
         return points
 
     @staticmethod
-    def generateRoute(origin, optimize=False, radius=1, wantedPoints=[], unwantedPoints=[]):
+    def generateRoute(origin, optimize=False, radius=1, wantedPoints='', unwantedPoints=''):
         '''
             generate a route around an origin point
         '''
+        wantedPoints = wantedPoints.split(',')
+        unwantedPoints = unwantedPoints.split(',')
         originLocation = WalkingRoute.getLocation(origin)
         placeTypes = ['sculpture', 'mural', 'fountain']
 
@@ -68,7 +70,7 @@ class WalkingRoute(Document):
         for keyword in placeTypes:
             try:
                 ## '&rankby=prominence' doesn't place nice with radius, but should be investigated more
-                placeList.extend(requests.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyAhHMgVekplsXZxpqkkwpctPH3fFBe1Ilc&location=' + str(originLocation['geometry']['location']['lat']) + ',' + str(originLocation['geometry']['location']['lng']) + '&radius=' + str(radius * 1609) + '&keyword=' + keyword).json()['results'])
+                placeList.extend(requests.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyAhHMgVekplsXZxpqkkwpctPH3fFBe1Ilc&location=' + str(originLocation['geometry']['location']['lat']) + ',' + str(originLocation['geometry']['location']['lng']) + '&radius=' + str(int(radius) * 1609) + '&keyword=' + keyword).json()['results'])
             except (IndexError, KeyError):
                 return None
         ## removing duplicate elements from placeList is an option, but will take additional computation with little benefit
@@ -76,14 +78,15 @@ class WalkingRoute(Document):
         # add wanted places and choose more places randomly from placeList
         waypoints = []
         for name in wantedPoints:
-            location = WalkingRoute.getLocation(name)
+            location = requests.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyAhHMgVekplsXZxpqkkwpctPH3fFBe1Ilc&location=' + str(originLocation['geometry']['location']['lat']) + ',' + str(originLocation['geometry']['location']['lng']) + '&radius=' + str(16090) + '&keyword=' + name).json()['results'][0]
             if location is not None:
                 waypoints.append(location['place_id'])
 
         if optimize is True:
             placeList = WalkingRoute.findClustering(placeList)
 
-        for i in range(len(waypoints), 23):
+        i = len(waypoints)
+        while i < 23:
             if len(placeList) == 0:
                 break
 
@@ -92,8 +95,9 @@ class WalkingRoute(Document):
             else:
                 randPoint = placeList.pop(random.choice(range(len(placeList))))
 
-            if randPoint['name'] not in wantedPoints and randPoint['name'] not in ['unwantedPoints']:
+            if randPoint['name'] not in wantedPoints and randPoint['name'] not in ['unwantedPoints'] and randPoint.get('price_level') is None:
                 waypoints.append(randPoint['place_id'])
+                i += 1
 
         return {'origin': originLocation['place_id'], 'waypoints': waypoints}
 
