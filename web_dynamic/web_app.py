@@ -91,7 +91,6 @@ def newwalk():
     req['waypoints'] = req['waypoints'].split(',')
 
     req['likes'] = 0
-    print(req)
     if action == 'like':
         walkroute = requests.post('http://127.0.0.1:5000/api/v1/walkingroutes', json=req, headers={'Content-Type': 'application/json'})
         requests.put('http://127.0.0.1:5000/api/v1/usersroutes/liked/' + userId, json={'route_id': walkroute.json()['id']}, headers={'Content-Type': 'application/json'})
