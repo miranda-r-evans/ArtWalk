@@ -1,5 +1,6 @@
 function loadRoutes (data) {
   $('#savedroutes').empty();
+  data.sort(function (a, b) { return b.likes - a.likes; });
   for (route of data) {
     $('#savedroutes').append(
       $('<div>', {'class': 'route', 'id': 'route.' + route['id']}).append(
